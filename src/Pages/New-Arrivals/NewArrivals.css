@@ -1,0 +1,110 @@
+.arrivals-header {
+    width: 100%;
+    height: 25vw;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.arrivals-header img {
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+}
+
+.arrivals-header-details {
+    z-index: 1;
+    text-align: center;
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    padding: 0px 50px;
+}
+
+.arrivals-header-details .max-width {
+    max-width: 350px;
+    color: white;
+}
+
+.arrivals-header-details .max-width h1 {
+    font-size: 2.2rem;
+    letter-spacing: 0.1rem;
+}
+
+.arrivals-header-details .max-width p {
+    font-size: 15px;
+    font-weight: 500;
+    font-family: verdana;
+}
+
+.page-changer-links {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 0px 120px;
+    border-bottom: 2px solid #ccc;
+}
+
+.page-changer-links .li1 {
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    width: 50%;
+    border-bottom: 3px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.page-changer-links .li2 {
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    width: 50%;
+    /* border-bottom: 2px solid #000; */
+     display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.arrivals-men-products{
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.arrivals-shoes {
+    display: flex;
+    flex-direction: column;
+    width: 88%;
+}
+
+.shoes-details {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: start;
+    width: 48%;
+    row-gap: 20px;
+}
+
+.shoes-details h1 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+}
+
+.shoes-details p {
+    font-size: 16px;
+    font-weight: 500;
+}

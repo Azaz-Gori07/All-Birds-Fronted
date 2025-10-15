@@ -1,0 +1,188 @@
+.mix-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f6f6f6f0;
+    width: 100%;
+    height: auto;
+    padding-top: 60px;
+    row-gap: 20px;
+}
+
+.search-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 74%;
+    height: auto;
+    gap: 10px;
+}
+
+
+
+.search-results {
+    font-size: 2rem;
+    color: #000;
+    font-weight: 700;
+}
+
+.search-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    font-size: 1rem;
+    left: 12px;
+}
+
+.search-term {
+    width: 100%;
+    height: 3rem;
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0px 40px;
+    font-size: 1.2rem;
+    background: #eeeeee;
+}
+
+.mix-products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 77%;
+    height: auto;
+    /* border: 1px solid #ccc; */
+}
+
+.mix-card-link {
+    width: 33%;
+    display: flex;
+    text-decoration: none;
+    color: inherit;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+
+.mix-card {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    padding: 16px;
+    cursor: pointer;
+}
+
+
+.mix-card-image {
+    width: 100%;
+    background: #eeeeee;
+}
+
+.mix-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mix-card-details {
+    width: 100%;
+    max-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    font-family: 'geograph', sans-serif;
+    padding: 15px 0px;
+    gap: 5px;
+    /* border: 1px solid #000; */
+}
+
+.mix-card-title {
+    font-size: 14.2px;
+    font-weight: 500;
+    font-family: 'geograph', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+.mix-card-color {
+    font-size: 12px;
+    font-family: verdana;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.mix-card-price {
+    font-size: 13.3px;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    color: red;
+    display: flex;
+    gap: 10px;
+}
+
+.mix-card-price del{
+    text-decoration: line-through;
+    color: #000;
+}
+
+@media (min-width:991px) {
+    .mix-card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+}
+
+@media (max-width:991px) {
+
+    .mix-products {
+        width: 90%;
+    }
+.search-input{
+    width: 88%;
+}
+}
+
+
+
+@media (max-width:990px) {
+    .mix-card {
+        padding: 0px;
+    }
+
+    .mix-card-details {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        font-family: 'geograph', sans-serif;
+        padding: 15px 10px;
+        gap: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+}
+
+@media (max-width: 768px) {
+    .search-input {
+        width: 95%;
+    }
+    .mix-products {
+        width: 100%;
+        padding: 6px;
+    }
+
+    .mix-card-link {
+        width: 50%;
+        padding: 5px;
+    }
+}

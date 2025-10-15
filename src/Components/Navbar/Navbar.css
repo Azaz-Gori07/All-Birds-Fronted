@@ -1,0 +1,323 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    width: 100%;
+    height: 60px;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    padding: 0px 50px;
+    background-color: #ffffff;
+    z-index: 999;
+    opacity: 0;
+    transform: translateY(-200%);
+    animation: dropDown 1s ease-out forwards;
+
+}
+
+@keyframes dropDown {
+    to {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+
+.nav1 ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: auto;
+    font-size: 11px;
+    color: #000;
+    font-weight: 700;
+    letter-spacing: 0.1rem;
+}
+
+.nav1 ul li {
+    color: #000;
+    font-family: 'Geograph', sans-serif;
+    cursor: pointer;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.nav2 ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.1rem;
+}
+
+.nav2 ul li {
+    color: #000;
+    font-family: 'Geograph', sans-serif;
+}
+
+.navbar li:hover {
+    border-bottom: 1px solid;
+}
+
+.icons {
+    font-size: 20px;
+}
+
+.fa-solid {
+    display: none;
+}
+
+
+.iconsN {
+    display: none;
+}
+
+.sidenav {
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: #fff;
+    z-index: 100;
+    overflow-y: auto;
+    display: none;
+}
+
+.sidenav li {
+    color: #000;
+    font-family: 'Lexend Tera';
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    width: 100%;
+    padding: 0px 25px;
+    height: 58px;
+}
+
+@media (max-width:900px) {
+    .fa-solid {
+        font-size: 25px;
+        display: flex;
+    }
+
+    .sidenav {
+        display: block;
+    }
+
+    .nav1 {
+        display: none;
+    }
+
+    .nav2 {
+        display: none;
+    }
+
+    .iconsN {
+        display: flex;
+        gap: 10px;
+    }
+}
+
+@media (max-width:500px) {
+    .navbar{
+        padding: 25px;
+    }
+}
+
+.total{
+    position: relative;
+    /* border: 1px solid; */
+}
+
+#total{
+    color: #000;
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    left: 13px;
+    font-size: 12px;
+    text-align: center;
+    padding: 2px 2px;
+    left: 20px;
+    top: 0;
+}
+
+.user-menu {
+  position: relative;
+  margin-left: auto; /* user icon ko right side push karo */
+}
+
+.user-icon {
+  cursor: pointer;
+  font-size: 22px;
+  color: #333;
+}
+
+.dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  z-index: 1000;
+}
+
+.dropdown a,
+.dropdown button {
+  padding: 10px 15px;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.dropdown a:hover,
+.dropdown button:hover {
+  background: #f0f0f0;
+}
+
+
+
+
+
+
+
+.main-1 {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-100%);
+    transition: all 2s ease-in;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    height: 100%;
+}
+
+.links ul {
+    font-family: 'geograph', Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: auto;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+
+.links li:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.links h1 {
+    font-family: 'Lexend Tera', Arial;
+    font-weight: 500;
+}
+
+.links h1:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.featureCom h1 {
+    font-family: 'Lexend Tera', Arial;
+    font-weight: 500;
+}
+
+.featureCom {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 60vh;
+    height: 15vw;
+}
+
+.mens-Arrivals {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    height: 100%;
+}
+
+.arrivals-1 {
+    display: flex;
+    gap: 15px;
+    width: 60vh;
+    height: 8vw;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.mens-Arrivals img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    filter: brightness(90%);
+}
+
+.mens-Arrivals p {
+    z-index: 3;
+    color: white;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    font-size: 1.3vw;
+    font-family: 'Geograph', sans-serif;
+}
+
+.mens-Arrivals p:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.main-1-SustainAbility {
+    width: 100%;
+    height: 60vh;
+    background: whitesmoke;
+    display: flex;
+    justify-content: center;
+    padding: 60px 0px;
+    gap: 60px;
+    position: sticky;
+    top: 60px;
+    left: 0;
+    z-index: 100;
+}
+
+@media (max-width:1200px) {
+
+    .main-1-SustainAbility,
+    .main-1 {
+        display: none;
+    }
+}
+
+
+
+
+/* .menDrop:hover .main-1{
+    animation: shake 1s ease-in-out;
+} */

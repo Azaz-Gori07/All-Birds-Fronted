@@ -1,0 +1,63 @@
+.LowerNav{
+    width: 100%;
+    height: 50px;
+    background: #f0eded;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    opacity: 0;
+    transform: translateY(-200%);
+    animation: drop 0.7s ease-in-out forwards;
+    /* position: sticky; */
+}
+
+@keyframes drop{
+    to{
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.LowerNav ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Lexend Tera';
+    font-weight: 300;
+    font-size: 11px;
+    gap: 20px;
+    letter-spacing: 0.07em;
+}
+
+.LowerNav ul li{
+    cursor: pointer;
+    position: relative;
+    padding: 3px;
+}
+
+.LowerNav ul li::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  width: 100%;
+  height: 1px;
+  background-color: #000;
+  transition: transform 0.3s ease;
+}
+
+.LowerNav ul li:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+@media (max-width:550px) {
+    .LowerNav li{
+    font-size: 2.2vw;
+}
+}
+
+
+/* .LowerNav ul li:hover{} */

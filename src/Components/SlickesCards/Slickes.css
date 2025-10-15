@@ -1,0 +1,165 @@
+.slick-Right {
+    position: absolute;
+    top: 33%;
+    right: -20px;
+    height: 40px;
+    width: 40px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    font-size: 25px;
+    padding-left: 3px;
+}
+
+.slick-Left {
+    position: absolute;
+    top: 33%;
+    Left: -20px;
+    height: 40px;
+    width: 40px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    font-size: 25px;
+    padding-right: 3px;
+}
+
+.slider .slick-slide {
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+.slider .slick-list {
+    margin: 0 -10px;
+}
+.items-slick{
+    height: 400px;
+    width: 20vw;
+}
+
+.slicker-card {
+    /* background: #f4f3f3; */
+    height: 100%;
+    /* border: 1px solid; */
+    width: 100%;
+    overflow: hidden;
+    cursor: pointer;
+
+}
+
+.img-div{
+    width: 100%;
+    height: 75%;
+    background: #f4f3f3;
+    padding-top: 30px;
+}
+.image-s {
+    width: 60%;
+    height: 70%;
+    margin: auto;
+    background: #f4f3f3;
+    object-fit: cover;
+}
+
+.slicker-card:hover .image-s{
+    transition: 0.5s;
+    transform: scale(109%);
+}
+
+.props {
+    width: 100%;
+    height: 22%;
+    padding-left: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    /* border: 1px solid; */
+}
+
+.detail-s {
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+
+.title-s {
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+
+.price-s {
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+@media (max-width:1024px) {
+.items-slick{
+    height: 380px;
+    width: 250px;
+}
+
+.slider{
+        width: 100%;
+        padding: 0px 20px;
+        overflow: hidden;
+}
+
+.props {
+    width: 100%;
+    height: 22%;
+    padding-left: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    /* border: 1px solid; */
+}
+
+.slick-Left, .slick-Right{
+    display: none;
+}
+}
+
+@media (max-width:816px) {
+    .items-slick{
+    height: 300px;
+}
+    .props{
+        margin-top: 5px;
+    }
+    .price-s, .detail-s, .title-s{
+        font-size: 1.9vw;
+    }
+
+}
+@media (max-width:768px) {
+    .items-slick{
+    height: 40vw;
+}
+    .props{
+        margin-top: 10px;
+    }
+    .price-s, .detail-s, .title-s{
+        font-size: 2vw;
+    }
+}
+
+@media (max-width:480px) {
+    .items-slick{
+        height: 58vw;
+    }
+    .price-s, .detail-s, .title-s{
+        font-size: 2.5vw;
+    }
+    .props{
+        margin-top: 0px;
+    }
+}

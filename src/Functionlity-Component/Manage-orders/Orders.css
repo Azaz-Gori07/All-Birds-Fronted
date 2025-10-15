@@ -1,0 +1,573 @@
+.orders-management {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 500px;
+  margin-top: 20px;
+}
+
+.orders-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.orders-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #1e293b;
+}
+
+.date-range {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.stats-section {
+  padding: 20px 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.stat-card {
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.stat-change {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stat-change.positive {
+  color: #10b981;
+}
+
+.stat-change.negative {
+  color: #ef4444;
+}
+
+.divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 0 24px;
+}
+
+.filters-section {
+  padding: 16px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 6px;
+  color: #64748b;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  background: #f8fafc;
+}
+
+.filter-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.add-btn {
+  padding: 6px 12px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #64748b;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2e8f0;
+  border-left: 4px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error State */
+.error-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #dc2626;
+}
+
+.retry-btn {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #64748b;
+}
+
+.orders-table-container {
+  overflow-x: auto;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.orders-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 14px;
+  color: #334155;
+}
+
+.orders-table tr:last-child td {
+  border-bottom: none;
+}
+
+.order-id {
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+/* Status Badge Styles */
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Payment Status Colors */
+.payment-status.pending {
+  background-color: #fef3c7;
+  color: #d97706;
+  border: 1px solid #fcd34d;
+}
+
+.payment-status.success {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+/* Fulfilment Status Colors */
+.fulfilment-status.unfulfilled {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
+
+.fulfilment-status.fulfilled {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.dropdown-arrow {
+  font-size: 10px;
+}
+
+.action-icons {
+  display: flex;
+  gap: 8px;
+}
+
+#view {
+  border: none;
+  font-family: arial, sans-serif;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  display: flex;
+  gap: 2px;
+  padding: 4px 7px;
+  box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+#view:hover {
+  background-color: #3b82f6;
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+.icon{
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.7));
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .filters {
+    flex-wrap: wrap;
+  }
+  
+  .orders-table {
+    min-width: 800px;
+  }
+}
+
+/* Add these to your existing CSS */
+
+/* Payment Status Colors */
+.payment-status.cod {
+  background-color: #fef3c7;
+  color: #d97706;
+  border: 1px solid #fcd34d;
+}
+
+.payment-status.card {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #93c5fd;
+}
+
+.payment-status.upi {
+  background-color: #e0e7ff;
+  color: #4338ca;
+  border: 1px solid #a5b4fc;
+}
+
+.payment-status.netbanking {
+  background-color: #f3e8ff;
+  color: #7e22ce;
+  border: 1px solid #c084fc;
+}
+
+/* Order Status Colors */
+.fulfilment-status.pending {
+  background-color: #fef3c7;
+  color: #d97706;
+  border: 1px solid #fcd34d;
+}
+
+.fulfilment-status.processing {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #93c5fd;
+}
+
+.fulfilment-status.shipped {
+  background-color: #e0e7ff;
+  color: #4338ca;
+  border: 1px solid #a5b4fc;
+}
+
+.fulfilment-status.delivered {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.fulfilment-status.unfulfilled {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
+
+/* Add these styles to your existing Orders.css */
+
+/* Action buttons styling */
+.action-icons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.action-icons button {
+    padding: 6px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.action-icons button:hover {
+    background: #f5f5f5;
+    border-color: #ccc;
+}
+
+.action-icons button#view {
+    color: #1976d2;
+    border-color: #1976d2;
+}
+
+.action-icons button#view:hover {
+    background: #e3f2fd;
+}
+
+.action-icons button#details {
+    color: #666;
+    border-color: #e0e0e0;
+}
+
+.action-icons button#details:hover {
+    background: #f5f5f5;
+}
+
+.icon {
+    font-size: 0.9rem;
+}
+
+/* Status badges enhancements */
+.status-badge.payment-status.paid {
+    background: #e8f5e8;
+    color: #2e7d32;
+}
+
+.status-badge.payment-status.cod {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.status-badge.fulfilment-status.fulfilled {
+    background: #e8f5e8;
+    color: #2e7d32;
+}
+
+.status-badge.fulfilment-status.processing {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.status-badge.fulfilment-status.unfulfilled {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.status-badge.fulfilment-status.cancelled {
+    background: #f5f5f5;
+    color: #666;
+}
+
+/* Loading and error states */
+.loading-state, .error-state, .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background: white;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #1976d2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 16px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.retry-btn {
+    background: #1976d2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.retry-btn:hover {
+    background: #1565c0;
+}
+
+/* Table responsive design */
+@media (max-width: 768px) {
+    .action-icons {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .action-icons button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .orders-table {
+        font-size: 0.8rem;
+    }
+    
+    .orders-table th,
+    .orders-table td {
+        padding: 6px 4px;
+    }
+}
+
+/* Order ID styling */
+.order-id {
+    font-weight: 600;
+    color: #1976d2;
+}
+
+/* Stats section enhancements */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    color: #666;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.stat-change.positive {
+    color: #2e7d32;
+    font-size: 0.8rem;
+}
+
+.stat-change.negative {
+    color: #c62828;
+    font-size: 0.8rem;
+}
+
+/* Filter buttons */
+.filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 1px solid #e0e0e0;
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn.active {
+    background: #1976d2;
+    color: white;
+    border-color: #1976d2;
+}
+
+.filter-btn:hover:not(.active) {
+    background: #f5f5f5;
+}
+
+.add-btn {
+    padding: 8px 16px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.add-btn:hover {
+    background: #1b5e20;
+}
