@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": "https://azaz-gori07-e-commers-all-birds.onrender.com"
+      "/api": "https://azaz-gori07-e-commers-all-birds.onrender.com/"
     }
   }
 })

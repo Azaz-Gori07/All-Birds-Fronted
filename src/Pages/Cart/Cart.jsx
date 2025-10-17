@@ -4,24 +4,70 @@ import { GrClose } from "react-icons/gr";
 import { useCart } from '../../Components/CartContext/cartContext'
 import { FaPlus } from "react-icons/fa6";
 import { LuMinus } from "react-icons/lu";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 function Cart({ openCart, setOpenCart }) {
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { cartContext, increaseQuantity, decreaseQuantity, deleteProduct } = useCart();
+
+
   useEffect(() => {
     if (openCart) {
-      document.body.classList.add("no-scroll")
+      document.body.classList.add("no-scroll");
     } else {
-      document.body.classList.remove("no-scroll")
+      document.body.classList.remove("no-scroll");
     }
   }, [openCart]);
 
-  const { cartContext, increaseQuantity, decreaseQuantity, deleteProduct } = useCart();
+
+  useEffect(() => {
+    setOpenCart(false);
+  }, [location.pathname]);
+
+  const closeCart = () => setOpenCart(false);
 
   const getTotalPrice = () => {
     return cartContext.reduce((total, item) => {
       return total + item.price * item.quantity;
     }, 0);
+  };
+
+  const handleCheckout = async (e) => {
+    e.preventDefault(); 
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Please login to continue");
+      closeCart(); 
+      navigate("/user");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/orders/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.status === 401) {
+        alert("Please login again");
+        closeCart();
+        navigate("/user");
+      } else {
+        const data = await res.json();
+        console.log("Checkout success:", data);
+        closeCart();
+        navigate("/checkout"); 
+      }
+    } catch (err) {
+      console.error("Error:", err);
+    }
   };
 
   return (
@@ -33,7 +79,7 @@ function Cart({ openCart, setOpenCart }) {
               CART ({cartContext.reduce((total, item) => total + item.quantity, 0)})
             </h2>
             <p className='note'>You've earned free shipping!</p>
-            <div id='close'><GrClose onClick={() => setOpenCart((prev => !prev))} /></div>
+            <div id='close'><GrClose onClick={() => setOpenCart(prev => !prev)} /></div>
           </div>
           <div className="devider"></div>
         </div>
@@ -42,15 +88,18 @@ function Cart({ openCart, setOpenCart }) {
           {
             cartContext.map((item) => (
               <div className="items" key={item.id}>
-                <img src={
-                item?.image
-                  ? item.image.startsWith('http')
-                    ? item.image
-                    : `/${item.image}`
-                  : '/fallback.jpg' // Put a fallback.jpg in public/
-              } className='item-image' />
+                <img
+                  src={
+                    item?.image
+                      ? item.image.startsWith('http')
+                        ? item.image
+                        : `/${item.image}`
+                      : '/fallback.jpg'
+                  }
+                  className='item-image'
+                />
                 <div className="details">
-                  <h3 >{item.title}</h3>
+                  <h3>{item.title}</h3>
                   <p className='p1'>Color: {item.color} {item.detail}</p>
                   <p className='size'>Size: {item.size}</p>
                   <p className='quantity'>
@@ -73,17 +122,27 @@ function Cart({ openCart, setOpenCart }) {
           <p className='headline'><span>Add Gift Note & Logo Free Packaging +</span></p>
           <div className="total-price">
             <h1 className='subtotal'><b>Subtotal</b> <b>US${Math.trunc(getTotalPrice())}</b></h1>
-            <Link to='/checkout' className='lk'><button className='checkout'>CHECKOUT</button></Link>
+
+           
+            <Link to='/checkout' className='lk' onClick={handleCheckout}>
+              <button className='checkout'>CHECKOUT</button>
+            </Link>
           </div>
           <div className="payment-option">
-            <button className='amazone-pay'><img src="./src/assest/Amazon_Pay__Black.svg" alt="" /></button>
-            <button className='paypal'><img src="./src/assest/PayPal_-_Color.svg" alt="" /></button>
-            <button className='shoppay'><img src="./src/assest/ShopPay_-_White.svg" alt="" /></button>
+            <button className='amazone-pay' onClick={closeCart}>
+              <img src="./src/assest/Amazon_Pay__Black.svg" alt="" />
+            </button>
+            <button className='paypal' onClick={closeCart}>
+              <img src="./src/assest/PayPal_-_Color.svg" alt="" />
+            </button>
+            <button className='shoppay' onClick={closeCart}>
+              <img src="./src/assest/ShopPay_-_White.svg" alt="" />
+            </button>
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default Cart
+export default Cart;

@@ -13,7 +13,7 @@ const Orders = ({ onSelectOrder }) => {
                 setIsLoading(true);
                 setError(null);
 
-                const response = await fetch('https://azaz-gori07-e-commers-all-birds.onrender.com/api/orders');
+                const response = await fetch('/api/orders');
 
                 if (!response.ok) {
                     throw new Error(`Server error: ${response.status}`);

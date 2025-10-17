@@ -28,7 +28,7 @@ function App() {
   const [openCart, setOpenCart] = useState(false);
 
   return (
-    <Router>
+    <>
       <Cart openCart={openCart} setOpenCart={setOpenCart} />
       <LinkDrops setOpenCart={setOpenCart}>
         <WithRouteLoader>
@@ -53,7 +53,7 @@ function App() {
           </Routes>
         </WithRouteLoader>
       </LinkDrops>
-    </Router>
+      </>
   );
 }
 
