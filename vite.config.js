@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       // "/api": "https://azaz-gori07-e-commers-all-birds.onrender.com/"
-      "/api": "http://localhost:5000"
+      "/api": "https://all-birds-backend-production.up.railway.app"
     }
   }
 })
