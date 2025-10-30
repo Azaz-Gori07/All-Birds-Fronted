@@ -9,30 +9,28 @@ import { useCart } from '../CartContext/cartContext';
 
 function Navbar({ toggle }) {
 
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const roles = localStorage.getItem("role");
+  const role = localStorage.getItem("role");
   const navigate = useNavigate();
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
 
-  const handleLogout = () => {
+  const handleProfileClick = () => {
+    const role = localStorage.getItem("role");
+    const userData = localStorage.getItem("user");
 
-    const confirmlogout = window.confirm("Are you sure you want to logout?");
-    if (confirmlogout) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("role");
-      setMenuOpen(false);
-      navigate("user");
+    const user = userData ? JSON.parse(userData) : null;
+
+    if (!role || !user || !user.id) {
+      navigate("/user");
+      return;
+    }
+
+    // ✅ agar role mil gaya to profile page
+    if (role === "admin" || role === "superadmin") {
+      navigate("/dashboard");
+    } else {
+      navigate(`/profile/${user.id}`); // normal user profile with user.id
     }
   };
-
-  const handleAddAccount = () => {
-    setMenuOpen(false);
-    navigate("user");
-  }
 
   const [openClose, setOpen] = useState(false)
 
@@ -52,8 +50,6 @@ function Navbar({ toggle }) {
   }, [drop]);
 
   const { cartContext } = useCart();
-
-  const role = localStorage.getItem("role");
 
   return (
     <>
@@ -81,22 +77,7 @@ function Navbar({ toggle }) {
               <Link to="/dashboard"><li>DashBoard</li></Link>
             )}
             <Link to='/mix'><FiSearch className='icons' /></Link>
-            <FiUser className='icons' onClick={toggleMenu} />
-            {
-              menuOpen && (
-                <div className='dropdown'>
-                  {!roles ? (
-                    <Link to="/user" onClick={() => setMenuOpen(false)}>Login</Link>
-                  ) : (
-                    <>
-                      <button onClick={handleLogout}>Logout</button>
-                      <button onClick={handleAddAccount}>Add another account</button>
-                    </>
-                  )}
-
-                </div>
-              )
-            }
+            <FiUser className='icons' onClick={handleProfileClick} />
             <Link to='/help'><MdHelpOutline className='icons' /></Link>
             <div className="total">
               <p id='total'>{cartContext.reduce((total, item) => total + item.quantity, 0)}</p>
@@ -119,14 +100,14 @@ function Navbar({ toggle }) {
 
         <div className="sidenav" onClick={HandleNav}>
 
-          <li>MEN  <FaChevronRight /></li>
+          <Link to='/men'><li>MEN  <FaChevronRight /></li></Link>
           <Link to='/women'><li>WOMEN  <FaChevronRight /></li></Link>
           <Link to='/socks'><li>SOCKS  <FaChevronRight /></li></Link>
           <Link to='/new-arrivals'><li>NEW ARRIVALS <FaChevronRight /></li></Link>
           <Link to='/sustainability'><li>SUSTAINABILITY  <FaChevronRight /></li></Link>
           <Link to='/reburn'><li>REBURN  <FaChevronRight /></li></Link>
           <Link to='/stores'><li>STORES  <FaChevronRight /></li></Link>
-          <Link to='/user'><li>Account  <FaChevronRight /></li></Link>
+          <li onClick={handleProfileClick}>Account  <FaChevronRight /></li>
           <Link to='/help'><li>Help <FaChevronRight /></li></Link>
         </div>
       )}

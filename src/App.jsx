@@ -22,6 +22,7 @@ import ProductPage from './Pages/ProductPage/ProductPage';
 import WithRouteLoader from './Components/WithRouteLoader/WithRouteLoader';
 import Dashboard from './DashBoard/DashBoard.jsx';
 import CheckOut from './Pages/CheckOut/CheckOut.jsx';
+import ProfilePage from './Pages/ProfilePage/ProfilePage.jsx';
 
 function App() {
 
@@ -50,6 +51,7 @@ function App() {
             <Route path="/Accessibility" element={<Accessibility />} />
             <Route path='/items/:type/:id' element={<ProductPage />} />
             <Route path='/checkout' element={<CheckOut />} />
+            <Route path="/profile/:id" element={<ProfilePage />} />
           </Routes>
         </WithRouteLoader>
       </LinkDrops>

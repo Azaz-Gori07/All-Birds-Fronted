@@ -5,6 +5,8 @@ import { useCart } from '../../Components/CartContext/cartContext'
 import { FaPlus } from "react-icons/fa6";
 import { LuMinus } from "react-icons/lu";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { isTokenValid } from '../../utils/authCheck';
+
 
 function Cart({ openCart, setOpenCart }) {
 
@@ -35,40 +37,22 @@ function Cart({ openCart, setOpenCart }) {
     }, 0);
   };
 
-  const handleCheckout = async (e) => {
-    e.preventDefault(); 
+  const handleCheckout = (e) => {
+    e.preventDefault();
     const token = localStorage.getItem("token");
 
-    if (!token) {
+    if (!token || !isTokenValid()) {
       alert("Please login to continue");
-      closeCart(); 
+      closeCart();
       navigate("/user");
       return;
     }
 
-    try {
-      const res = await fetch("/api/orders/verify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (res.status === 401) {
-        alert("Please login again");
-        closeCart();
-        navigate("/user");
-      } else {
-        const data = await res.json();
-        console.log("Checkout success:", data);
-        closeCart();
-        navigate("/checkout"); 
-      }
-    } catch (err) {
-      console.error("Error:", err);
-    }
+    // ✅ Token valid, user logged in
+    closeCart();
+    navigate("/checkout");
   };
+
 
   return (
     <>
@@ -123,7 +107,7 @@ function Cart({ openCart, setOpenCart }) {
           <div className="total-price">
             <h1 className='subtotal'><b>Subtotal</b> <b>US${Math.trunc(getTotalPrice())}</b></h1>
 
-           
+
             <Link to='/checkout' className='lk' onClick={handleCheckout}>
               <button className='checkout'>CHECKOUT</button>
             </Link>

@@ -115,10 +115,8 @@ export default function Dashboard() {
         (total, order) => total + getItemsCount(order.items),
         0
     );
-    const totalRevenue = orders.reduce(
-        (total, order) => total + getOrderTotal(order),
-        0
-    );
+    const totalRevenue =
+        orders.reduce((total, order) => total + getOrderTotal(order), 0).toFixed(2);
 
     // === Prepare Sales Chart Data ===
     const salesByDate = (() => {
@@ -149,7 +147,8 @@ export default function Dashboard() {
         { name: "Orders", icon: ShoppingCart },
         { name: "Reports", icon: BarChart2 },
         { name: "Settings", icon: Settings },
-        { name: "Logout", icon: LogOut },
+        {
+            name: "Logout", icon: LogOut },
     ];
 
     const fetchProducts = () => {
@@ -163,6 +162,12 @@ export default function Dashboard() {
         fetchProducts();
     }, []);
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        window.location.href = "/user";
+    }
+
     return (
         <div className="flex h-screen bg-gray-50">
             {/* Sidebar */}
@@ -174,7 +179,13 @@ export default function Dashboard() {
                     {menuItems.map((item) => (
                         <button
                             key={item.name}
-                            onClick={() => setActive(item.name)}
+                            onClick={() => {
+                                if (item.name === "Logout") {
+                                    handleLogout();
+                                } else {
+                                    setActive(item.name);
+                                }
+                            }}
                             className={`flex items-center gap-3 w-full p-3 rounded-lg mb-1 text-left transition ${active === item.name
                                     ? "bg-gray-100 text-black font-medium"
                                     : "text-gray-600 hover:bg-gray-50"
@@ -184,6 +195,7 @@ export default function Dashboard() {
                             {item.name}
                         </button>
                     ))}
+
                 </nav>
             </div>
 
@@ -305,7 +317,7 @@ export default function Dashboard() {
                                                                             return sum + price * qty;
                                                                         },
                                                                         0
-                                                                    );
+                                                                    ).toFixed(2);
                                                                     return total.toLocaleString("en-IN");
                                                                 }
                                                                 return 0;

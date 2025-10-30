@@ -41,16 +41,6 @@ export default function ProductPage() {
               alt={product?.title || 'No image'}
               className="w-full rounded-xl shadow-sm"
             />
-            {/* <div className="flex gap-2">
-            {[1, 2, 3].map((i) => (
-              <img
-                key={i}
-                src={`https://via.placeholder.com/80?text=Img+${i}`}
-                alt="Thumbnail"
-                className="w-20 h-20 rounded-md object-cover border hover:border-black"
-              />
-            ))}
-          </div> */}
           </div>
 
           {/* Product Info Section */}
