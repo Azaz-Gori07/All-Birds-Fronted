@@ -4,7 +4,8 @@ import "./OrderDetails.css";
 import ReserveItemModal from '../Reserved-Modal/Reserved.jsx';
 import ShippingLabelDrawer from "../ShippingLabelDrawer/ShippingLabelDrawer.jsx";
 import FulfillPage from "../Fulfill/Fulfill.jsx";
-
+import { apiFetch } from "../../config/api.js"
+ 
 export default function OrderDetail({ orderId, onBack, onStatusChange }) {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
@@ -18,7 +19,7 @@ export default function OrderDetail({ orderId, onBack, onStatusChange }) {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const res = await fetch(`/api/orders/${orderId}`);
+        const res = await apiFetch(`/api/orders/${orderId}`);
         if (!res.ok) throw new Error("Failed to fetch order");
         const data = await res.json();
 

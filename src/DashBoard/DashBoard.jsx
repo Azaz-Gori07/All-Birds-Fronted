@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "../config/api";
 import {
     Users,
     Package,
@@ -35,7 +36,7 @@ export default function Dashboard() {
 
     const handleStatusUpdate = async (orderId, newStatus) => {
         try {
-            const response = await fetch(`/api/orders/${orderId}/status`, {
+            const response = await apiFetch(`/api/orders/${orderId}/status`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ status: newStatus }),
@@ -56,21 +57,21 @@ export default function Dashboard() {
     };
 
     useEffect(() => {
-        fetch("/api/orders")
+        apiFetch("/api/orders")
             .then((res) => res.json())
             .then((data) => setOrders(data))
             .catch((err) => console.error("Error Fetching orders:", err));
     }, []);
 
     useEffect(() => {
-        fetch("/api/orders/recent")
+        apiFetch("/api/orders/recent")
             .then((res) => res.json())
             .then((data) => setRecentOrders(data))
             .catch((err) => console.error("Error Fetching recent orders:", err));
     }, []);
 
     useEffect(() => {
-        fetch("/api/users")
+        apiFetch("/api/users")
             .then((res) => res.json())
             .then((data) => setUsers(data))
             .catch((err) => console.error("Error Fetching users:", err));
@@ -152,7 +153,7 @@ export default function Dashboard() {
     ];
 
     const fetchProducts = () => {
-        fetch("/api/products")
+        apiFetch("/api/products")
             .then((res) => res.json())
             .then((data) => setProducts(data))
             .catch((err) => console.error("Error Fetching products:", err));

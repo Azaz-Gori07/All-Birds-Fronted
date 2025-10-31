@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Package, CreditCard, Heart, HelpCircle, Gift, Menu, X, ChevronRight, LogOut } from 'lucide-react';
+import { apiFetch } from "../../config/api"
+
 
 function ProfilePage() {
   const [user, setUser] = useState(null);
@@ -50,7 +52,7 @@ function ProfilePage() {
         }
 
         // Fetch user
-        const userRes = await fetch(`/api/users/${id}`, {
+        const userRes = await apiFetch(`/api/users/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -59,7 +61,7 @@ function ProfilePage() {
         setUser(userData);
 
         // Fetch user orders
-        const ordersRes = await fetch(`/api/orders/user/${id}`, {
+        const ordersRes = await apiFetch(`/api/orders/user/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -112,7 +114,7 @@ function ProfilePage() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/users/${id}`, {
+      const response = await apiFetch(`/api/users/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -159,7 +161,7 @@ function ProfilePage() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/users/${id}/password`, {
+      const response = await apiFetch(`/api/users/${id}/password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -194,7 +196,7 @@ function ProfilePage() {
 
 
   const handleSendOtp = async () => {
-    const res = await fetch("/api/auth/forgot-password", {
+    const res = await apiFetch("/api/auth/forgot-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: forgotEmail }),
@@ -209,7 +211,7 @@ function ProfilePage() {
   };
 
   const handleVerifyOtp = async () => {
-    const res = await fetch("/api/auth/verify-otp", {
+    const res = await apiFetch("/api/auth/verify-otp", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: forgotEmail, otp }),
@@ -224,7 +226,7 @@ function ProfilePage() {
   };
 
   const handleResetPassword = async () => {
-    const res = await fetch("/api/auth/reset-password", {
+    const res = await apiFetch("/api/auth/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: forgotEmail, otp, newPassword: resetPassword }),

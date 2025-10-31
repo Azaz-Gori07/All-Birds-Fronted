@@ -39,7 +39,7 @@ function User() {
       setLoading(true);
       const url = isSignup ? "api/auth/signup" : "/api/auth/login";
 
-      const res = await fetch(url, {
+      const res = await apiFetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
