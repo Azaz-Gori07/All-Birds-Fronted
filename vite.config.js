@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://all-birds-backend.vercel.app/",
+        target: "https://all-birds-backend-production.up.railway.app",
         changeOrigin: true,
         secure: false,
       },
