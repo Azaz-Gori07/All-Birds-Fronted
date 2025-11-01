@@ -114,13 +114,13 @@ function Cart({ openCart, setOpenCart }) {
           </div>
           <div className="payment-option">
             <button className='amazone-pay' onClick={closeCart}>
-              <img src="./src/assets/Amazon_Pay__Black.svg" alt="" />
+              <img src="/assest/Amazon_Pay__Black.svg" alt="" />
             </button>
             <button className='paypal' onClick={closeCart}>
-              <img src="./src/assets/PayPal_-_Color.svg" alt="" />
+              <img src="/assest/PayPal_-_Color.svg" alt="" />
             </button>
             <button className='shoppay' onClick={closeCart}>
-              <img src="./src/assets/ShopPay_-_White.svg" alt="" />
+              <img src="/assest/ShopPay_-_White.svg" alt="" />
             </button>
           </div>
         </div>
