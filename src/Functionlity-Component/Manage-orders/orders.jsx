@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './Orders.css';
-import { apiFetch} from "../../config/api"
 
 const Orders = ({ onSelectOrder }) => {
     const [activeFilter, setActiveFilter] = useState('All');
@@ -14,7 +13,7 @@ const Orders = ({ onSelectOrder }) => {
                 setIsLoading(true);
                 setError(null);
 
-                const response = await apiFetch('/api/orders');
+                const response = await fetch('/api/orders');
 
                 if (!response.ok) {
                     throw new Error(`Server error: ${response.status}`);

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { CreditCard, Truck, CheckCircle, ShoppingBag, MapPin, Phone, User } from "lucide-react";
 import { useCart } from "../../Components/CartContext/cartContext";
-import { apiFetch } from "../../config/api"
 
 const CheckoutSteps = () => {
   
@@ -55,7 +54,7 @@ const CheckoutSteps = () => {
     const token = localStorage.getItem("token");
     
     try {
-      const res = await apiFetch("/api/orders", {
+      const res = await fetch("/api/orders", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

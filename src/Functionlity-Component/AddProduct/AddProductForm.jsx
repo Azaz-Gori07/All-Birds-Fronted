@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./AddProductForm.css";
-import {apiFetch} from "../../config/api.js"
 
 const AddProductForm = ( { onProductSaved }) => {
   const [form, setForm] = useState({
@@ -35,7 +34,7 @@ const AddProductForm = ( { onProductSaved }) => {
         formData.append("image", form.image);
       }
 
-      const response = await apiFetch("/api/products", {
+      const response = await fetch("/api/products", {
         method: "POST",
         body: formData,
       });

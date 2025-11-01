@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./ProductTable.css";
-import { apiFetch } from "../../config/api"
 
 const ProductsTable = () => {
     const [products, setProducts] = useState([]);
@@ -14,7 +13,7 @@ const ProductsTable = () => {
 
     // Fetch products from backend
     const fetchProducts = () => {
-        apiFetch("/api/products")
+        fetch("/api/products")
             .then((res) => res.json())
             .then((data) => setProducts(data))
             .catch((err) => console.error("Error fetching products:", err));
@@ -27,7 +26,7 @@ const ProductsTable = () => {
     // Delete
     const deleteProduct = (id) => {
         if (window.confirm("Delete this product?")) {
-            apiFetch(`/api/products/${id}`, { method: "DELETE" })
+            fetch(`/api/products/${id}`, { method: "DELETE" })
                 .then(() => fetchProducts())
                 .catch((err) => console.error("Error deleting product:", err));
         }

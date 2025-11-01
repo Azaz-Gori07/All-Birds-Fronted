@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Users.css";
-import { apiFetch } from "../../config/api.js";
 
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
@@ -25,7 +24,7 @@ const UsersTable = () => {
   // ===== Fetch users =====
   const fetchUsers = async () => {
     try {
-      const res = await apiFetch("/api/users");
+      const res = await fetch("/api/users");
       if (!res.ok) throw new Error("Failed to fetch users");
       const data = await res.json();
       setUsers(data);
@@ -58,7 +57,7 @@ const UsersTable = () => {
   // ===== Create new user =====
   const createNewUser = async () => {
     try {
-      const res = await apiFetch("/api/users", {
+      const res = await fetch("/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -97,7 +96,7 @@ const UsersTable = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
     try {
-      const res = await apiFetch(`/api/users/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/users/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete");
       setUsers((prev) => prev.filter((u) => u.id !== id));
     } catch (err) {
@@ -117,7 +116,7 @@ const UsersTable = () => {
   // ===== Save Edit =====
   const saveEdit = async () => {
     try {
-      const res = await apiFetch(`/api/users/${editingUser.id}`, {
+      const res = await fetch(`/api/users/${editingUser.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
