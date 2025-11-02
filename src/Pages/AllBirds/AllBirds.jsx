@@ -40,6 +40,7 @@ function AllBirds() {
       <ResponsiveCards />
 
       <div className="attemp-1-0">
+        <img src="24Q3_AugustCore_Statement_Module_Site_Desktop_IMG_2880x720.avif" className='atemp-1-bg'/>
         <h1>WE MAKE BETTER THINGS IN A BETTER WAY</h1>
         <p>By looking to the world’s greatest innovator—Nature—we create shoes
           that deliver <br /> unrivaled comfort that you feel good in and feel good about.</p>
