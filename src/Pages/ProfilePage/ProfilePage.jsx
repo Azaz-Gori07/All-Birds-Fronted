@@ -858,7 +858,7 @@ function ProfilePage() {
             </form>
             <p
               style={{ color: "blue", cursor: "pointer", marginTop: "10px" }}
-              onClick={() => setShowForgotModal(true)}
+              onClick={() => (setShowForgotModal(true), setShowPasswordModal(false))}
             >
               Forgot Password?
             </p>
@@ -867,9 +867,12 @@ function ProfilePage() {
       )}
 
       {showForgotModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Forgot Password</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-6 sm:p-8 relative animate-fadeIn">
+            <h2 className="text-2xl font-semibold text-center text-gray-800 dark:text-gray-100 mb-6">
+              Forgot Password
+            </h2>
+
             {!otpSent ? (
               <>
                 <input
@@ -877,8 +880,14 @@ function ProfilePage() {
                   placeholder="Enter your registered email"
                   value={forgotEmail}
                   onChange={(e) => setForgotEmail(e.target.value)}
+                  className="w-full mb-4 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:text-gray-100"
                 />
-                <button onClick={handleSendOtp}>Send OTP</button>
+                <button
+                  onClick={handleSendOtp}
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg transition-colors"
+                >
+                  Send OTP
+                </button>
               </>
             ) : !otpVerified ? (
               <>
@@ -887,8 +896,14 @@ function ProfilePage() {
                   placeholder="Enter OTP"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
+                  className="w-full mb-4 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:text-gray-100"
                 />
-                <button onClick={handleVerifyOtp}>Verify OTP</button>
+                <button
+                  onClick={handleVerifyOtp}
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg transition-colors"
+                >
+                  Verify OTP
+                </button>
               </>
             ) : (
               <>
@@ -897,14 +912,28 @@ function ProfilePage() {
                   placeholder="Enter New Password"
                   value={resetPassword}
                   onChange={(e) => setResetPassword(e.target.value)}
+                  className="w-full mb-4 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:text-gray-100"
                 />
-                <button onClick={handleResetPassword}>Reset Password</button>
+                <button
+                  onClick={handleResetPassword}
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg transition-colors"
+                >
+                  Reset Password
+                </button>
               </>
             )}
-            <button onClick={() => setShowForgotModal(false)}>Close</button>
+
+            <button
+              onClick={() => setShowForgotModal(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+              aria-label="Close"
+            >
+              ✕
+            </button>
           </div>
         </div>
       )}
+
     </div>
   );
 }
