@@ -6,6 +6,18 @@ import { jwtDecode } from 'jwt-decode';
 function User() {
   const navigate = useNavigate();
 
+  const isTokenValid = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return false;
+    try {
+      const decoded = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      return decoded.exp > currentTime;
+    } catch (error) {
+      return false;
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
@@ -20,52 +32,94 @@ function User() {
   }, [navigate]);
 
   const [mode, setMode] = useState('login'); // 'login', 'signup', 'forgot'
+  const [signupStep, setSignupStep] = useState(1); // 1: form, 2: otp verification
   const [forgotStep, setForgotStep] = useState(1); // 1: email, 2: otp, 3: reset password
   const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [signupOtp, setSignupOtp] = useState('');
   const [forgotForm, setForgotForm] = useState({ email: '', otp: '', newPassword: '', confirmPassword: '' });
   const [loading, setLoading] = useState(false);
+  const [resendTimer, setResendTimer] = useState(0);
+  const [statusMessage, setStatusMessage] = useState(''); // New state for non-alert feedback
 
   const isValidGmail = form.email.endsWith('@gmail.com');
   const isForgotEmailValid = forgotForm.email.endsWith('@gmail.com');
 
+  // Resend Timer Effect
+  useEffect(() => {
+    let interval;
+    if (resendTimer > 0) {
+      interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [resendTimer]);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setStatusMessage('');
   };
 
   const handleForgotChange = (e) => {
     setForgotForm({ ...forgotForm, [e.target.name]: e.target.value });
+    setStatusMessage('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatusMessage('');
 
-    if (!isValidGmail) return alert("Please enter a valid Gmail address");
-    if (!form.password) return alert("Please enter your password");
+    if (!isValidGmail) {
+      setStatusMessage("Please enter a valid Gmail address");
+      return;
+    }
+    if (!form.password) {
+      setStatusMessage("Please enter your password");
+      return;
+    }
+    if (mode === 'signup' && !form.name) {
+      setStatusMessage("Please enter your name");
+      return;
+    }
 
     try {
       setLoading(true);
-      const url = mode === 'signup' ? "api/auth/signup" : "/api/auth/login";
 
-      const res = await fetch(url, {
+      if (mode === 'signup') {
+        const res = await fetch("/api/auth/send-signup-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: form.email }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          setStatusMessage(data.error || "Something went wrong sending OTP.");
+          return;
+        }
+
+        setStatusMessage("OTP sent to your email!");
+        setSignupStep(2);
+        setResendTimer(60);
+        return;
+      }
+
+      // Login
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
 
       const data = await res.json();
-      console.log("Response data:", data);
 
-      if (!res.ok) return alert(data.error || "Something went wrong");
-
-      if (mode === 'signup') {
-        alert("Signup successful! Now login.");
-        setMode('login');
+      if (!res.ok) {
+        setStatusMessage(data.error || "Login failed. Please try again.");
         return;
       }
 
       const token = data.token;
       const decoded = jwtDecode(token);
-      console.log("Decoded:", decoded);
 
       localStorage.setItem("token", token);
       localStorage.setItem("role", decoded.role);
@@ -82,8 +136,76 @@ function User() {
       }
 
     } catch (err) {
-      console.error("Error:", err);
-      alert("Server error");
+      setStatusMessage("Server error during sign in/up.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifySignupOTP = async (e) => {
+    e.preventDefault();
+    setStatusMessage('');
+
+    if (!signupOtp) {
+      setStatusMessage("Please enter the 6-digit OTP");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await fetch("/api/auth/verify-and-signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email,
+          otp: signupOtp,
+          name: form.name,
+          password: form.password
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setStatusMessage(data.error || "Invalid OTP or account creation failed.");
+        return;
+      }
+
+      setStatusMessage("Account created successfully! Please login.");
+      setMode('login');
+      setSignupStep(1);
+      setSignupOtp('');
+      setForm({ name: '', email: '', password: '' });
+      setResendTimer(0);
+    } catch (err) {
+      setStatusMessage("Server error during OTP verification.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    if (resendTimer > 0) return;
+    setStatusMessage('');
+
+    try {
+      setLoading(true);
+      const res = await fetch("/api/auth/resend-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email || forgotForm.email }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setStatusMessage(data.error || "Failed to resend OTP.");
+        return;
+      }
+
+      setStatusMessage("OTP resent successfully!");
+      setResendTimer(60);
+    } catch (err) {
+      setStatusMessage("Server error while trying to resend OTP.");
     } finally {
       setLoading(false);
     }
@@ -91,7 +213,12 @@ function User() {
 
   const handleSendOTP = async (e) => {
     e.preventDefault();
-    if (!isForgotEmailValid) return alert("Please enter a valid Gmail address");
+    setStatusMessage('');
+
+    if (!isForgotEmailValid) {
+      setStatusMessage("Please enter a valid Gmail address.");
+      return;
+    }
 
     try {
       setLoading(true);
@@ -102,13 +229,15 @@ function User() {
       });
 
       const data = await res.json();
-      if (!res.ok) return alert(data.error || "Failed to send OTP");
+      if (!res.ok) {
+        setStatusMessage(data.error || "Failed to send OTP. Check your email.");
+        return;
+      }
 
-      alert("OTP sent to your email!");
+      setStatusMessage("OTP sent to your email!");
       setForgotStep(2);
     } catch (err) {
-      console.error("Error:", err);
-      alert("Server error");
+      setStatusMessage("Server error while sending forgot password OTP.");
     } finally {
       setLoading(false);
     }
@@ -116,7 +245,12 @@ function User() {
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
-    if (!forgotForm.otp) return alert("Please enter OTP");
+    setStatusMessage('');
+
+    if (!forgotForm.otp) {
+      setStatusMessage("Please enter the OTP.");
+      return;
+    }
 
     try {
       setLoading(true);
@@ -128,15 +262,14 @@ function User() {
 
       const data = await res.json();
       if (!res.ok) {
-        alert("Invalid OTP");
+        setStatusMessage(data.message || "Invalid OTP.");
         return;
       }
 
-      alert("OTP verified successfully!");
+      setStatusMessage("OTP verified successfully! Set your new password.");
       setForgotStep(3);
     } catch (err) {
-      console.error("Error:", err);
-      alert("Server error");
+      setStatusMessage("Server error during OTP verification.");
     } finally {
       setLoading(false);
     }
@@ -144,11 +277,15 @@ function User() {
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
+    setStatusMessage('');
+
     if (!forgotForm.newPassword || !forgotForm.confirmPassword) {
-      return alert("Please fill all fields");
+      setStatusMessage("Please fill both password fields.");
+      return;
     }
     if (forgotForm.newPassword !== forgotForm.confirmPassword) {
-      return alert("Passwords do not match");
+      setStatusMessage("Passwords do not match.");
+      return;
     }
 
     try {
@@ -164,15 +301,17 @@ function User() {
       });
 
       const data = await res.json();
-      if (!res.ok) return alert(data.error || "Failed to reset password");
+      if (!res.ok) {
+        setStatusMessage(data.error || "Failed to reset password.");
+        return;
+      }
 
-      alert("Password reset successful! Please login.");
+      setStatusMessage("Password reset successful! Please login.");
       setMode('login');
       setForgotStep(1);
       setForgotForm({ email: '', otp: '', newPassword: '', confirmPassword: '' });
     } catch (err) {
-      console.error("Error:", err);
-      alert("Server error");
+      setStatusMessage("Server error during password reset.");
     } finally {
       setLoading(false);
     }
@@ -260,16 +399,36 @@ function User() {
 
         <div className="sign-in-container">
           <h1>
-            {mode === 'signup' ? "Sign up" : mode === 'forgot' ? "Forgot Password" : "Sign in"}
+            {mode === 'signup'
+              ? (signupStep === 1 ? "Sign up" : "Verify Email")
+              : mode === 'forgot'
+                ? "Forgot Password"
+                : "Sign in"}
           </h1>
           <p>
             {mode === 'signup'
-              ? "Create your account"
+              ? (signupStep === 1 ? "Create your account" : `Enter the OTP sent to ${form.email}`)
               : mode === 'forgot'
-              ? "Reset your password"
-              : "Choose how you'd like to sign in"}
+                ? "Reset your password"
+                : "Choose how you'd like to sign in"}
           </p>
         </div>
+
+        {/* Status Message Display */}
+        {statusMessage && (
+          <div style={{
+            padding: '10px',
+            margin: '10px 0',
+            backgroundColor: statusMessage.includes('successful') || statusMessage.includes('sent') ? '#e6fffb' : '#ffebeb',
+            color: statusMessage.includes('successful') || statusMessage.includes('sent') ? '#006d75' : '#cf1322',
+            border: `1px solid ${statusMessage.includes('successful') || statusMessage.includes('sent') ? '#87e8de' : '#ffa39e'}`,
+            borderRadius: '4px',
+            textAlign: 'center',
+            fontSize: '14px'
+          }}>
+            {statusMessage}
+          </div>
+        )}
 
         <div className="email-container">
           {mode === 'forgot' ? (
@@ -292,6 +451,7 @@ function User() {
                     setMode('login');
                     setForgotStep(1);
                     setForgotForm({ email: '', otp: '', newPassword: '', confirmPassword: '' });
+                    setStatusMessage('');
                   }}
                   onMouseOver={(e) => {
                     e.target.style.color = '#45b7aa';
@@ -306,6 +466,89 @@ function User() {
                 </span>
               </p>
             </>
+          ) : mode === 'signup' && signupStep === 2 ? (
+            <>
+              <form className="email-form" onSubmit={handleVerifySignupOTP}>
+                <input
+                  type="text"
+                  name="otp"
+                  placeholder="Enter OTP"
+                  value={signupOtp}
+                  onChange={(e) => setSignupOtp(e.target.value)}
+                  maxLength="6"
+                />
+                <button
+                  type="submit"
+                  className="continue-btn"
+                  disabled={!signupOtp || loading}
+                >
+                  {loading ? "Verifying..." : "Verify OTP"}
+                </button>
+              </form>
+
+              <div style={{
+                marginTop: '15px',
+                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px'
+              }}>
+                {resendTimer > 0 ? (
+                  <p style={{ color: '#666', fontSize: '14px' }}>
+                    Resend OTP in {resendTimer}s
+                  </p>
+                ) : (
+                  <span
+                    style={{
+                      color: '#4ecdc4',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      transition: 'all 0.3s ease',
+                      textDecoration: 'none'
+                    }}
+                    onClick={handleResendOTP}
+                    onMouseOver={(e) => {
+                      e.target.style.color = '#45b7aa';
+                      e.target.style.textDecoration = 'underline';
+                    }}
+                    onMouseOut={(e) => {
+                      e.target.style.color = '#4ecdc4';
+                      e.target.style.textDecoration = 'none';
+                    }}
+                  >
+                    Resend OTP
+                  </span>
+                )}
+
+                <span
+                  style={{
+                    color: '#ff6b6b',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    transition: 'all 0.3s ease',
+                    textDecoration: 'none'
+                  }}
+                  onClick={() => {
+                    setSignupStep(1);
+                    setSignupOtp('');
+                    setResendTimer(0);
+                    setStatusMessage('');
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.color = '#ff5252';
+                    e.target.style.textDecoration = 'underline';
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.color = '#ff6b6b';
+                    e.target.style.textDecoration = 'none';
+                  }}
+                >
+                  ← Change Email
+                </span>
+              </div>
+            </>
           ) : (
             <>
               <form className="email-form" onSubmit={handleSubmit}>
@@ -313,9 +556,10 @@ function User() {
                   <input
                     type="text"
                     name="name"
-                    placeholder="Name"
+                    placeholder="Full Name"
                     value={form.name}
                     onChange={handleChange}
+                    required
                   />
                 )}
 
@@ -362,7 +606,10 @@ function User() {
                       transition: 'all 0.3s ease',
                       textDecoration: 'none'
                     }}
-                    onClick={() => setMode('forgot')}
+                    onClick={() => {
+                      setMode('forgot');
+                      setStatusMessage('');
+                    }}
                     onMouseOver={(e) => {
                       e.target.style.color = '#ff5252';
                       e.target.style.textDecoration = 'underline';
@@ -383,7 +630,10 @@ function User() {
                       transition: 'all 0.3s ease',
                       textDecoration: 'none'
                     }}
-                    onClick={() => setMode('signup')}
+                    onClick={() => {
+                      setMode('signup');
+                      setStatusMessage('');
+                    }}
                     onMouseOver={(e) => {
                       e.target.style.color = '#45b7aa';
                       e.target.style.textDecoration = 'underline';
@@ -412,7 +662,10 @@ function User() {
                       transition: 'all 0.3s ease',
                       textDecoration: 'none'
                     }}
-                    onClick={() => setMode('login')}
+                    onClick={() => {
+                      setMode('login');
+                      setStatusMessage('');
+                    }}
                     onMouseOver={(e) => {
                       e.target.style.color = '#45b7aa';
                       e.target.style.textDecoration = 'underline';
