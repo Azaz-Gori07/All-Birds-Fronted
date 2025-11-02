@@ -7,6 +7,7 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "https://all-birds-backend.vercel.app/",
+        // target: "http://localhost:8080/",
         changeOrigin: true,
         secure: false,
       },

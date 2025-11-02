@@ -54,43 +54,45 @@ const UsersTable = () => {
     return data.slice(startIndex, startIndex + rowsPerPage);
   };
 
-  // ===== Create new user =====
   const createNewUser = async () => {
-    try {
-      const res = await fetch("/api/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: newName,
-          email: newEmail,
-          password: newPassword,
-          role: newRole,
-        }),
-      });
-
-      if (!res.ok) throw new Error(`Creation failed: ${res.status}`);
-
-      let newUser = null;
-      try {
-        newUser = await res.json(); // agar backend ne json bheja hai
-      } catch {
-        // agar backend ne empty response bheja ho
-        newUser = { id: Date.now(), name: newName, email: newEmail, role: newRole };
-      }
-
-      setUsers((prev) => [...prev, newUser]);
-      setCreateUser(false);
-
-      // reset create states
-      setNewName("");
-      setNewEmail("");
-      setNewPassword("");
-      setNewRole("user");
-    } catch (err) {
-      console.error(err);
-      alert(err.message || "Creation failed");
+  try {
+    const token = localStorage.getItem("token"); // 👈 make sure token exists
+    if (!token) {
+      alert("You are not logged in or token expired!");
+      return;
     }
-  };
+
+    const res = await fetch("/api/users/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, // ✅ send token
+      },
+      body: JSON.stringify({
+        name: newName,
+        email: newEmail,
+        password: newPassword,
+        role: newRole,
+      }),
+    });
+
+    if (!res.ok) throw new Error(`Creation failed: ${res.status}`);
+
+    const newUser = await res.json();
+    setUsers((prev) => [...prev, newUser]);
+    setCreateUser(false);
+
+    // reset form
+    setNewName("");
+    setNewEmail("");
+    setNewPassword("");
+    setNewRole("user");
+  } catch (err) {
+    console.error(err);
+    alert(err.message || "Creation failed");
+  }
+};
+
 
   // ===== Delete User =====
   const handleDelete = async (id) => {
