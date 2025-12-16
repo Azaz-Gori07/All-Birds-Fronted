@@ -7,6 +7,24 @@ const Orders = ({ onSelectOrder }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const parseItemsSafe = (items) => {
+        if (!items) return [];
+
+        if (Array.isArray(items)) return items;
+
+        if (typeof items === "string") {
+            try {
+                const parsed = JSON.parse(items);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch {
+                return [];
+            }
+        }
+
+        return [];
+    };
+
+
     useEffect(() => {
         const fetchOrders = async () => {
             try {
@@ -51,24 +69,6 @@ const Orders = ({ onSelectOrder }) => {
         return `$${parseFloat(amount).toFixed(2)}`;
     };
 
-    // Parse items from JSON string to count items
-    const getItemsCount = (items) => {
-        if (!items) return 0;
-        try {
-            const parsedItems = JSON.parse(items);
-            if (Array.isArray(parsedItems)) {
-                return parsedItems.length;
-            }
-            return 0;
-        } catch (err) {
-            // If items is not JSON, try to count as string
-            if (typeof items === 'string') {
-                return items.split(',').length;
-            }
-            return 0;
-        }
-    };
-
     // Get fulfilment status based on order status
     const getFulfilmentStatus = (status) => {
         switch (status) {
@@ -93,11 +93,20 @@ const Orders = ({ onSelectOrder }) => {
         return true;
     });
 
-    // Calculate stats from actual orders data
     const totalOrders = orders.length;
-    const totalItems = orders.reduce((total, order) => total + getItemsCount(order.items), 0);
-    const fulfilledOrders = orders.filter(order => order.status === 'Delivered').length;
-    const pendingOrders = orders.filter(order => order.status === 'Pending').length;
+    const totalItems = orders.reduce(
+        (total, order) => total + parseItemsSafe(order.items).length,
+        0
+    );
+
+    const fulfilledOrders = orders.filter(
+        o => o.status?.toLowerCase() === "delivered"
+    ).length;
+
+    const pendingOrders = orders.filter(
+        o => o.status?.toLowerCase() === "pending"
+    ).length;
+
 
     return (
         <div className="orders-management">
@@ -196,7 +205,7 @@ const Orders = ({ onSelectOrder }) => {
                             </thead>
                             <tbody>
                                 {filteredOrders.map((order, index) => {
-                                    const itemsCount = getItemsCount(order.items);
+                                    const itemsCount = parseItemsSafe(order.items).length;
                                     const fulfilmentStatus = getFulfilmentStatus(order.status);
                                     const sequentialNumber = index + 1;
 

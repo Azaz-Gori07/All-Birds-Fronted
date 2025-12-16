@@ -4,7 +4,7 @@ import "./OrderDetails.css";
 import ReserveItemModal from '../Reserved-Modal/Reserved.jsx';
 import ShippingLabelDrawer from "../ShippingLabelDrawer/ShippingLabelDrawer.jsx";
 import FulfillPage from "../Fulfill/Fulfill.jsx";
- 
+
 export default function OrderDetail({ orderId, onBack, onStatusChange }) {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
@@ -14,25 +14,39 @@ export default function OrderDetail({ orderId, onBack, onStatusChange }) {
   const [showShipping, setShowShipping] = useState(false);
   const [showFulfill, setShowFulfill] = useState(false);
 
+  const parseItemsSafe = (items) => {
+    if (!items) return [];
+
+    if (Array.isArray(items)) return items;   // ✅ already parsed
+
+    if (typeof items === "string") {
+      try {
+        const parsed = JSON.parse(items);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        console.error("Invalid items JSON", e);
+        return [];
+      }
+    }
+
+    return [];
+  };
+
+
 
   useEffect(() => {
     const fetchOrder = async () => {
       try {
+
         const res = await fetch(`/api/orders/${orderId}`);
         if (!res.ok) throw new Error("Failed to fetch order");
         const data = await res.json();
 
-        // Parse items JSON safely
-        if (data.items) {
-          try {
-            data.items = JSON.parse(data.items);
-          } catch (e) {
-            console.error("Invalid items JSON", e);
-            data.items = [];
-          }
-        }
+      setOrder({
+          ...data,
+          items: parseItemsSafe(data.items),
+        });
 
-        setOrder(data);
       } catch (err) {
         console.error("Error:", err);
       } finally {
@@ -217,28 +231,45 @@ export default function OrderDetail({ orderId, onBack, onStatusChange }) {
               <h2>Products</h2>
               <span className="unfulfilled-badge">{order.status}</span>
             </div>
-            {order.items.map((item) => (
-              <div key={item.id} className="product-item">
+
+            {(!order.items || order.items.length === 0) && (
+              <p className="text-gray-500">No products found for this order.</p>
+            )}
+
+            {(order.items || []).map((item, index) => (
+              <div key={item.id || index} className="product-item">
                 <img
                   src={
                     item?.image
                       ? item.image.startsWith("http")
                         ? item.image
-                        : `/${item.image}`
+                        : item.image
                       : "/fallback.jpg"
                   }
-                  alt={item.name}
+                  alt={item?.name || "Product"}
                   className="product-image"
+                  onError={(e) => {
+                    e.currentTarget.src = "/fallback.jpg";
+                  }}
                 />
+
                 <div className="product-details">
-                  <h3 className="product-name">{item.name}</h3>
-                  <p className="product-sku">SKU: {item.title}</p>
-                  <p className="product-variant">{item.color} · Quantity - {item.quantity}</p>
+                  <h3 className="product-name">{item?.name || "Unnamed product"}</h3>
+                  <p className="product-sku">SKU: {item?.title || "N/A"}</p>
+                  <p className="product-variant">
+                    {item?.color || "Default"} · Quantity – {item?.quantity || 1}
+                  </p>
                 </div>
-                <div className="product-price">${item.price}</div>
+
+                <div className="product-price">
+                  ₹{(
+                    Number(item?.price || 0) * Number(item?.quantity || 1)
+                  ).toLocaleString("en-IN")}
+                </div>
               </div>
             ))}
           </div>
+
 
           <div className="reserved">
             {reservation ? (

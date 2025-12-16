@@ -33,6 +33,22 @@ export default function Dashboard() {
     const [recentOrders, setRecentOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState(null);
 
+    const parseItemsSafe = (items) => {
+        if (!items) return [];
+        if (Array.isArray(items)) return items;
+        if (typeof items === "string") {
+            try {
+                const parsed = JSON.parse(items);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch {
+                return items.split(",").map((i) => ({ name: i }));
+            }
+        }
+
+        return [];
+    };
+
+
     const handleStatusUpdate = async (orderId, newStatus) => {
         try {
             const response = await fetch(`/api/orders/${orderId}/status`, {
@@ -93,32 +109,28 @@ export default function Dashboard() {
     };
 
     const getOrderTotal = (order) => {
-        try {
-            const parsedItems = JSON.parse(order.items);
-            if (Array.isArray(parsedItems)) {
-                return parsedItems.reduce((sum, item) => {
-                    const price = Number(item.price) || 0;
-                    const quantity = Number(item.quantity) || 1;
-                    return sum + price * quantity;
-                }, 0);
-            }
-        } catch {
-            return 0;
-        }
-        return 0;
+        const items = parseItemsSafe(order.items);
+
+        return items.reduce((sum, item) => {
+            const price = Number(item.price) || 0;
+            const qty = Number(item.quantity) || 1;
+            return sum + price * qty;
+        }, 0);
     };
+
 
     // === Dashboard Stats ===
     const totalOrders = orders.length;
     const totalUsers = users.length;
     const totalItems = orders.reduce(
-        (total, order) => total + getItemsCount(order.items),
+        (total, order) => total + parseItemsSafe(order.items).length,
         0
     );
+
     const totalRevenue =
         orders.reduce((total, order) => total + getOrderTotal(order), 0).toFixed(2);
 
-    // === Prepare Sales Chart Data ===
+
     const salesByDate = (() => {
         const map = {};
         orders.forEach((order) => {
@@ -148,7 +160,8 @@ export default function Dashboard() {
         { name: "Reports", icon: BarChart2 },
         { name: "Settings", icon: Settings },
         {
-            name: "Logout", icon: LogOut },
+            name: "Logout", icon: LogOut
+        },
     ];
 
     const fetchProducts = () => {
@@ -187,8 +200,8 @@ export default function Dashboard() {
                                 }
                             }}
                             className={`flex items-center gap-3 w-full p-3 rounded-lg mb-1 text-left transition ${active === item.name
-                                    ? "bg-gray-100 text-black font-medium"
-                                    : "text-gray-600 hover:bg-gray-50"
+                                ? "bg-gray-100 text-black font-medium"
+                                : "text-gray-600 hover:bg-gray-50"
                                 }`}
                         >
                             <item.icon size={18} />
@@ -305,26 +318,7 @@ export default function Dashboard() {
                                                         {order.status || "N/A"}
                                                     </td>
                                                     <td>
-                                                        ₹
-                                                        {(() => {
-                                                            try {
-                                                                const parsedItems = JSON.parse(order.items);
-                                                                if (Array.isArray(parsedItems)) {
-                                                                    const total = parsedItems.reduce(
-                                                                        (sum, item) => {
-                                                                            const price = Number(item.price) || 0;
-                                                                            const qty = Number(item.quantity) || 1;
-                                                                            return sum + price * qty;
-                                                                        },
-                                                                        0
-                                                                    ).toFixed(2);
-                                                                    return total.toLocaleString("en-IN");
-                                                                }
-                                                                return 0;
-                                                            } catch {
-                                                                return 0;
-                                                            }
-                                                        })()}
+                                                            ₹{getOrderTotal(order).toLocaleString("en-IN")}
                                                     </td>
                                                 </tr>
                                             ))
