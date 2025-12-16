@@ -1,0 +1,123 @@
+.slider-container {
+  display: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 10px;
+  max-height: 300px;
+  margin: 0;
+  padding: 0;
+  /* -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; */
+  /* Firefox */
+}
+
+.slider-container::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari */
+}
+
+.card {
+  display: flex;
+  min-width: 250px;
+  max-width: 300px;
+  flex-direction: column;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  border: none;
+  background: #f4f3f3;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.card:hover img{
+  transition: 0.5s ease-out;
+  transform: scale(112%);
+}
+
+.card img {
+  width: 20vw;
+  height: 20vw;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
+.details-cont {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-content: center;
+  align-items: start;
+  padding: 10px 10px;
+}
+
+.card .title {
+  color: #000;
+  font-size: 2vw;
+  font-weight: 600;
+}
+
+.card .detail {
+  color: #000;
+  font-size: 1.6vw;
+}
+
+.card .price {
+  color: #000;
+  font-size: 1.7vw;
+}
+
+.card h3,
+p {
+  font-family: 'Montserrat', arial;
+}
+
+@media (max-width:900px) {
+  .slider-container {
+    display: flex;
+  }
+}
+
+@media (max-width:600px) {
+
+  .card img {
+    width: 27vw;
+    height: 27vw;
+    object-fit: cover;
+  }
+
+  .card .title {
+    color: #000;
+    font-size: 2.9vw;
+  }
+
+  .card .detail {
+    color: #000;
+    font-size: 2.2vw;
+  }
+
+  .card .price {
+    color: #000;
+    font-size: 2.3vw;
+  }
+}
+
+@media (max-width:500px) {
+  .card {
+    display: flex;
+    min-width: 210px;
+    max-width: 300px;
+    flex-direction: column;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    border: none;
+    background: #f4f3f3;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -1,0 +1,279 @@
+.cart-hide {
+    transition: 1s ease-in-out;
+    height: 90vh;
+    width: 33rem;
+    background-color: #f5f5f5;
+    position: fixed;
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cart-show {
+    transition: 1s ease-in-out;
+    height: 100vh;
+    width: 33rem;
+    background-color: #f7f7f7;
+    position: fixed;
+    top: 0;
+    transform: translateX(0);
+    color: black;
+    font-size: 50px;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body {
+    position: relative;
+}
+
+.index {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+}
+
+.values {
+    display: flex;
+    justify-content: space-between;
+    padding: 17px 15px;
+    width: 100%;
+    align-items: center;
+}
+
+.cart {
+    font-size: 12px;
+    font-family: "geograph", system-ui, sans-serif;
+}
+
+.note {
+    font-size: 14px;
+    color: #514f4f;
+    font-family: "geograph", system-ui, sans-serif;
+}
+
+#close {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.devider {
+    height: 5px;
+    width: 95%;
+    border-radius: 20px;
+    background-color: #000;
+    margin: auto;
+}
+
+.headline {
+    padding: 10px 0px;
+    width: 100%;
+    background-color: #e0dacf;
+    color: #000;
+    font-size: 12px;
+    font-family: "geograph", system-ui, sans-serif;
+    text-align: center;
+}
+
+.headline span {
+    cursor: pointer;
+}
+
+.total-price {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.subtotal {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-family: "geograph", system-ui, sans-serif;
+    padding: 10px 12px;
+    width: 100%;
+}
+
+.checkout {
+    width: 96%;
+    background: #000;
+    font-family: "geograph", system-ui, sans-serif;
+    font-size: 12px;
+    color: #fff;
+    border-radius: 20px;
+    height: 34px;
+    border: none;
+}
+
+.lk {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.checkout:hover {
+    transition: 0.5s;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #000;
+    color: #000;
+}
+
+.payment-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+}
+
+.amazone-pay {
+    width: 32%;
+    background-color: #fad676;
+    padding: 8px 16px;
+    border-radius: 20px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.paypal {
+    width: 32%;
+    background-color: #ffc439;
+    padding: 8px 16px;
+    border-radius: 20px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.shoppay {
+    width: 32%;
+    background-color: #5a31f4;
+    padding: 8px 16px;
+    border-radius: 20px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.payment-option button>img {
+    height: 17px;
+}
+
+@media (max-width:550px) {
+    .cart-show {
+        transition: 1s ease-in-out;
+        height: 100%;
+        width: 100%;
+        background-color: #f7f7f7;
+        position: fixed;
+        top: 0;
+        transform: translateX(0);
+        color: black;
+        font-size: 50px;
+        right: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+}
+.added-items{
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.items{
+    width: 95%;
+    /* border: 1px solid #ccc; */
+    display: flex;
+    height: 140px;
+    margin: auto;
+    justify-content: start;
+    align-items: center;
+    padding: 13px 0px;
+}
+
+.item-image{
+    height: 100%;
+    width: 6.5rem;
+    padding: 10px 6px;
+    /* border: 1px solid red; */
+}
+
+.details{
+    width: 67%;
+    height: 100%;
+    /* border: 1px solid; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* gap: 10px; */
+    font-family: "geograph", system-ui, sans-serif;
+    padding: 0px 10px;
+    min-width: 0;
+}
+
+.details h3{
+    font-size: 14px;
+}
+
+.details .p1, .size{
+    font-size: 13px;
+    color: #575757;
+}
+
+.quantity{
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 13px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 12px;
+    align-items: center;
+    font-weight: bold;
+    font-family: "geograph", system-ui, sans-serif;
+}
+
+#increase{
+    cursor: pointer;
+}
+#decrease{
+    cursor: pointer;
+}
+
+.remove{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: space-between;
+    font-size: 15px;
+    font-family: "geograph", system-ui, sans-serif;
+    height: 100%;
+    padding: 5px 0px;
+    /* align-items: end; */
+    width: 18%;
+    /* border: 1px solid red; */
+}

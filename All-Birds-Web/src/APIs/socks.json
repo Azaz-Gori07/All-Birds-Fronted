@@ -1,0 +1,242 @@
+[
+  {
+    "id": 1,
+    "title": "Men's Trino® Sprinter Crew Socks",
+    "discount": "$16",
+    "price": 9,
+    "gender": "Men",
+    "color": "Natural White",
+    "image": "Socks/socks (1).avif"
+  },
+  {
+    "id": 2,
+    "title": "Women's Trino® Hiders",
+    "discount": "$14",
+    "price": 9,
+    "gender": "Women",
+    "color": "Hazy Beige",
+    "image": "Socks/socks (2).avif"
+  },
+  {
+    "id": 3,
+    "title": "Men's Trino® Tubers",
+    "discount": "$14",
+    "price": 9,
+    "gender": "Men",
+    "color": "Storm Grey",
+    "image": "Socks/socks (3).avif"
+  },
+  {
+    "id": 4,
+    "title": "Women's Trino® Sprinter Ankle Socks",
+    "price": 16,
+    "discount": "$9",
+    "gender": "Women",
+    "color": "Charcoal",
+    "image": "Socks/socks (4).avif"
+  },
+  {
+    "id": 5,
+    "title": "Men's Trino® Hiders",
+    "discount": "$14",
+    "price": 9,
+    "gender": "Men",
+    "color": "Blue Depths",
+    "image": "Socks/socks (5).avif"
+  },
+  {
+    "id": 6,
+    "title": "Trino® XO Quarter Socks",
+    "discount": "$18",
+    "price": 9,
+    "gender": "Unisex",
+    "color": "True Black",
+    "image": "Socks/socks (6).avif"
+  },
+  {
+    "id": 7,
+    "title": "Trino® Sprinter Ankle Socks",
+    "discount": "$16",
+    "price": 9,
+    "gender": "Unisex",
+    "color": "White + Green",
+    "image": "Socks/socks (7).avif"
+  },
+  {
+    "id": 8,
+    "title": "Trino® XO Crew Socks",
+    "price": 18,
+    "gender": "Unisex",
+    "color": "Grey + Yellow",
+    "image": "Socks/socks (8).avif"
+  },
+  {
+    "id": 9,
+    "title": "Trino® Hiders",
+    "price": 14,
+    "gender": "Unisex",
+    "color": "White",
+    "image": "Socks/socks (9).avif"
+  },
+  {
+    "id": 10,
+    "title": "Trino® XO Hiders",
+    "price": 14,
+    "gender": "Unisex",
+    "color": "Blue Stripe",
+    "image": "Socks/socks (10).avif"
+  },
+  {
+    "id": 11,
+    "title": "Kids' Trino® Tubers",
+    "price": 10,
+    "gender": "Kids",
+    "color": "Forest Green",
+    "image": "Socks/socks (11).avif"
+  },
+  {
+    "id": 12,
+    "title": "Kids' Trino® Hiders",
+    "price": 10,
+    "gender": "Kids",
+    "color": "Sunset Red",
+    "image": "Socks/socks (12).avif"
+  },
+  {
+    "id": 13,
+    "title": "Men's Trino® XO Hiders",
+    "price": 14,
+    "gender": "Men",
+    "color": "Charcoal",
+    "image": "Socks/socks (13).avif"
+  },
+  {
+    "id": 14,
+    "title": "Women's Trino® XO Ankle Socks",
+    "price": 16,
+    "gender": "Women",
+    "color": "Lavender",
+    "image": "Socks/socks (14).avif"
+  },
+  {
+    "id": 15,
+    "title": "Men's Trino® Sprinter Ankle Socks",
+    "price": 16,
+    "gender": "Men",
+    "color": "Natural White",
+    "image": "Socks/socks (15).avif"
+  },
+  {
+    "id": 16,
+    "title": "Trino® Sprinter Ankle Socks",
+    "price": 16,
+    "gender": "Unisex",
+    "color": "White + Green",
+    "image": "Socks/socks (16).avif"
+  },
+  {
+    "id": 17,
+    "title": "Trino® XO Crew Socks",
+    "price": 18,
+    "gender": "Unisex",
+    "color": "Grey + Yellow",
+    "image": "Socks/socks (17).avif"
+  },
+  {
+    "id": 18,
+    "title": "Trino® Hiders",
+    "price": 14,
+    "gender": "Unisex",
+    "color": "White",
+    "image": "Socks/socks (18).avif"
+  },
+  {
+    "id": 19,
+    "title": "Trino® XO Hiders",
+    "price": 14,
+    "gender": "Unisex",
+    "color": "Blue Stripe",
+    "image": "Socks/socks (19).avif"
+  },
+  {
+    "id": 20,
+    "title": "Kids' Trino® Tubers",
+    "price": 10,
+    "gender": "Kids",
+    "color": "Forest Green",
+    "image": "Socks/socks (20).avif"
+  },
+  {
+    "id": 21,
+    "title": "Kids' Trino® Hiders",
+    "price": 10,
+    "gender": "Kids",
+    "color": "Sunset Red",
+    "image": "Socks/socks (21).avif"
+  },
+  {
+    "id": 22,
+    "title": "Men's Trino® XO Hiders",
+    "price": 14,
+    "gender": "Men",
+    "color": "Charcoal",
+    "image": "Socks/socks (22).avif"
+  },
+  {
+    "id": 23,
+    "title": "Women's Trino® XO Ankle Socks",
+    "price": 16,
+    "gender": "Women",
+    "color": "Lavender",
+    "image": "Socks/socks (23).avif"
+  },
+  {
+    "id": 24,
+    "title": "Anytime No Show Sock",
+    "color": "Blizzard",
+    "price": 35,
+    "image": "Socks/trio (1).avif"
+  },
+  {
+    "id": 25,
+    "title": "Anytime No Show Sock",
+    "color": "Natural Black",
+    "price": 35,
+    "image": "Socks/trio (2).avif"
+  },
+  {
+    "id": 26,
+    "title": "Anytime No Show Sock",
+    "color": "Blizzard/Medium Grey/Natural Black",
+    "price": 35,
+    "image": "Socks/trio (3).avif"
+  },
+  {
+    "id": 27,
+    "title": "Anytime Ankle Sock",
+    "color": "Blizzard",
+    "price": 38,
+    "image": "Socks/trio (4).avif"
+  },
+  {
+    "id": 28,
+    "title": "Anytime Ankle Sock",
+    "color": "Natural Black",
+    "price": 38,
+    "image": "Socks/trio (5).avif"
+  },
+  {
+    "id": 29,
+    "title": "Anytime Ankle Sock",
+    "color": "Blizzard/Medium Grey/Natural Black",
+    "price": 38,
+    "image": "Socks/trio (6).avif"
+  },
+  {
+    "id": 30,
+    "title": "Anytime Crew Sock",
+    "color": "Blizzard/Medium Grey/Natural Black",
+    "price": 45,
+    "image": "Socks/trio (7).avif"
+  }
+]

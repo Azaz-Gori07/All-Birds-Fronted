@@ -1,0 +1,9 @@
+.main-1-SustainAbility{
+    width: 100%;
+    height: auto;
+    background: whitesmoke;
+    display: flex;
+    justify-content: center;
+    padding: 60px 0px;
+    gap: 60px;
+}
